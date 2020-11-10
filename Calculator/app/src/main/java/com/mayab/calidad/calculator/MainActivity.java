@@ -3,6 +3,7 @@ package com.mayab.calidad.calculator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import java.lang.Math;
+import java.text.DecimalFormat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -24,7 +25,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_0,btn_Add,btn_Sub,btn_Mul,btn_Div,btn_calc,btn_dec,btn_clear, btn_sqrt;
+    Button btn_1,btn_2,btn_3,btn_4,btn_5,btn_6,btn_7,btn_8,btn_9,btn_0,btn_Add,btn_Sub,btn_Mul,btn_Div,btn_calc,btn_dec,btn_clear, btn_Sqrt, btn_negative;
     EditText ed1;
     String operation = "";
     Boolean repeat = false, clean = false;
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
         btn_calc = (Button) findViewById(R.id.btn_calc);
         btn_dec = (Button) findViewById(R.id.btn_dec);
         btn_clear = (Button) findViewById(R.id.btn_clear);
-        btn_sqrt = (Button) findViewById(R.id.btn_Sqrt);
+        btn_Sqrt = (Button) findViewById(R.id.btn_Sqrt);
+        btn_negative = (Button) findViewById(R.id.btn_negative);
         ed1 = (EditText) findViewById(R.id.edText1);
 
         setButtons();
@@ -127,8 +129,17 @@ public class MainActivity extends AppCompatActivity {
             ed1.setText("Error");
             return;
         }
-        ed1.setText(java.lang.Math.sqrt(number) + "");
+        ed1.setText(new DecimalFormat("#.###").format(java.lang.Math.sqrt(number)));
         repeat = true;
+    }
+
+    protected void negative(){
+        if(ed1.getText().toString() != "" &&
+            ed1.getText().toString().contains("-")){
+            ed1.setText("" + ed1.getText().toString().substring(1));
+        } else if(ed1.getText().toString() != ""){
+            ed1.setText("-" + ed1.getText().toString());
+        }
     }
 
     protected float division(float first, float second){
@@ -255,10 +266,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_sqrt.setOnClickListener(new View.OnClickListener() {
+        btn_Sqrt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sqr();
+            }
+        });
+
+        btn_negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                negative();
             }
         });
 
